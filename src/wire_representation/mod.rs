@@ -8,7 +8,7 @@ use crate::compact_representation::StandardCellBoard;
 use crate::types::*;
 use rand::prelude::IteratorRandom;
 use serde::{Deserialize, Serialize};
-use std::collections::VecDeque;
+use std::collections::{VecDeque, HashSet};
 use std::convert::TryInto;
 use std::error::Error;
 use std::fmt::{self, Display};
@@ -65,9 +65,9 @@ impl Position {
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub struct Board {
-    pub height: u32,
-    pub width: u32,
-    pub food: Vec<Position>,
+    pub height: i32,
+    pub width: i32,
+    pub food: HashSet<Position>,
     pub snakes: Vec<BattleSnake>,
     pub hazards: Vec<Position>,
 }
@@ -79,8 +79,8 @@ impl fmt::Display for Board {
             let k = self.height - i - 1;
             for j in 0..self.width {
                 let position = Position {
-                    x: j as i32,
-                    y: k as i32,
+                    x: j,
+                    y: k,
                 };
                 if self.food.contains(&position) {
                     write!(f, "f")?;
@@ -214,9 +214,9 @@ impl Game {
 
     pub fn off_board(&self, position: Position) -> bool {
         position.x < 0
-            || position.x >= self.board.width as i32
+            || position.x >= self.board.width
             || position.y < 0
-            || position.y >= self.board.height as i32
+            || position.y >= self.board.height
     }
 
     pub fn snake_ids(&self) -> Vec<String> {
@@ -248,8 +248,8 @@ impl RandomReasonableMovesGame for Game {
                 let mut new_head = s.head.add_vec(mv.to_vector());
 
                 if self.is_wrapped() {
-                    let wrapped_x = new_head.x.rem_euclid(self.get_width() as i32);
-                    let wrapped_y = new_head.y.rem_euclid(self.get_height() as i32);
+                    let wrapped_x = new_head.x.rem_euclid(self.get_width());
+                    let wrapped_y = new_head.y.rem_euclid(self.get_height());
 
                     new_head = Position {
                         x: wrapped_x,
@@ -290,8 +290,8 @@ impl Display for Game {
             let k = self.board.height - i - 1;
             for j in 0..self.board.width {
                 let position = Position {
-                    x: j as i32,
-                    y: k as i32,
+                    x: j,
+                    y: k,
                 };
                 if self.board.food.contains(&position) {
                     write!(f, "f")?;
@@ -547,8 +547,8 @@ impl NeighborDeterminableGame for Game {
             let mut new_pos = clone.add_vec(v);
 
             if self.is_wrapped() {
-                let wrapped_x = new_pos.x.rem_euclid(self.get_width() as i32);
-                let wrapped_y = new_pos.y.rem_euclid(self.get_height() as i32);
+                let wrapped_x = new_pos.x.rem_euclid(self.get_width());
+                let wrapped_y = new_pos.y.rem_euclid(self.get_height());
 
                 new_pos = Position {
                     x: wrapped_x,
