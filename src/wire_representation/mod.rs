@@ -398,7 +398,7 @@ impl PositionGettableGame for Game {
 }
 
 impl FoodGettableGame for Game {
-    fn get_all_food_as_positions(&self) -> Vec<crate::wire_representation::Position> {
+    fn get_all_food_as_positions(&self) -> HashSet<crate::wire_representation::Position> {
         self.board.food.clone()
     }
 
@@ -466,11 +466,11 @@ impl ShoutGettableGame for Game {
 }
 
 impl SizeDeterminableGame for Game {
-    fn get_width(&self) -> u32 {
+    fn get_width(&self) -> i32 {
         self.board.width
     }
 
-    fn get_height(&self) -> u32 {
+    fn get_height(&self) -> i32 {
         self.board.height
     }
 }
