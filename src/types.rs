@@ -415,9 +415,9 @@ pub trait ShoutGettableGame: SnakeIDGettableGame {
 /// a game for which the size of the game board can be determined
 pub trait SizeDeterminableGame {
     #[allow(missing_docs)]
-    fn get_width(&self) -> u32;
+    fn get_width(&self) -> i32;
     #[allow(missing_docs)]
-    fn get_height(&self) -> u32;
+    fn get_height(&self) -> i32;
 }
 
 /// a game for which the current turn is determinable
