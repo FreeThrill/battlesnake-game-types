@@ -466,12 +466,12 @@ impl ShoutGettableGame for Game {
 }
 
 impl SizeDeterminableGame for Game {
-    fn get_width(&self) -> i32 {
-        self.board.width
+    fn get_width(&self) -> u32 {
+        self.board.width as u32
     }
 
-    fn get_height(&self) -> i32 {
-        self.board.height
+    fn get_height(&self) -> u32 {
+        self.board.height as u32
     }
 }
 
