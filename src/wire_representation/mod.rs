@@ -248,8 +248,8 @@ impl RandomReasonableMovesGame for Game {
                 let mut new_head = s.head.add_vec(mv.to_vector());
 
                 if self.is_wrapped() {
-                    let wrapped_x = new_head.x.rem_euclid(self.get_width());
-                    let wrapped_y = new_head.y.rem_euclid(self.get_height());
+                    let wrapped_x = new_head.x.rem_euclid(self.get_width() as i32);
+                    let wrapped_y = new_head.y.rem_euclid(self.get_height() as i32);
 
                     new_head = Position {
                         x: wrapped_x,
@@ -398,8 +398,8 @@ impl PositionGettableGame for Game {
 }
 
 impl FoodGettableGame for Game {
-    fn get_all_food_as_positions(&self) -> HashSet<crate::wire_representation::Position> {
-        self.board.food.clone()
+    fn get_all_food_as_positions(&self) -> Vec<crate::wire_representation::Position> {
+        self.board.food.clone().into_iter().collect()
     }
 
     fn get_all_food_as_native_positions(&self) -> Vec<Self::NativePositionType> {
@@ -547,8 +547,8 @@ impl NeighborDeterminableGame for Game {
             let mut new_pos = clone.add_vec(v);
 
             if self.is_wrapped() {
-                let wrapped_x = new_pos.x.rem_euclid(self.get_width());
-                let wrapped_y = new_pos.y.rem_euclid(self.get_height());
+                let wrapped_x = new_pos.x.rem_euclid(self.get_width() as i32);
+                let wrapped_y = new_pos.y.rem_euclid(self.get_height() as i32);
 
                 new_pos = Position {
                     x: wrapped_x,
